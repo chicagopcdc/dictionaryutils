@@ -7,8 +7,15 @@ def get_info(ontology, code):
     if ontology == 'ncit':
         url = "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=" + code
 
-        response = requests.get(url)
-        if response.status_code != 200:
+        response = None
+        try:
+		    response = requests.get(url)
+		except requests.exceptions.RequestException as e:
+			print(e)
+			print("ERROR: network error with {} url".format(url))
+		    return {}
+
+        if not response or response.status_code != 200:
             print("ERROR getting NCIt page for {} !!!!!".format(url))
             return {}
         page = response.text
