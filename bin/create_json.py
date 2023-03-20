@@ -52,9 +52,9 @@ with open(json_dd) as dd_file:
             add_codes(dd_file_json[composite_name], yaml_schemas["_terms.yaml"], variable_name, "term", variable_values)
 
             # TODO need to finish doing the bulk load of the terms before re-enabling this, otherwise the generation of the schema.json will take a very long time
-            # if "values" in table_value:
-            #     for value_key, value_value in table_value["values"].items():
-            #         add_codes(value_value, yaml_schemas["_terms.yaml"], variable_name, "enumDef", variable_values, value_key)
+            if "values" in dd_file_json[composite_name]:
+                for value_key, value_value in dd_file_json[composite_name]["values"].items():
+                    add_codes(value_value, yaml_schemas["_terms.yaml"], variable_name, "enumDef", variable_values, value_key)
 
 
 # Save files
