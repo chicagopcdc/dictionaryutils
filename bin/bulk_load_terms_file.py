@@ -3,7 +3,7 @@ import os
 import yaml
 
 from dictionaryutils import load_yaml
-from .utils import add_codes
+from utils import add_codes
 
 
 
@@ -18,16 +18,15 @@ _terms_file = load_yaml(path)
 
 # Load the variables from the JSON version of our DD
 json_dd = "./all_variables.json"
-excluded_variables = ["id", "state", "updated_datetime", "created_datetime", "project_id", "type", "submitter_id", "projects", "timings", "subjects", "persons"]
 with open(json_dd) as dd_file:
     dd_file_json = json.load(dd_file)
 
     for category, table_value in dd_file_json.items():
-        add_codes(table_value, _terms_file)
+        add_codes(table_value, _terms_file, category)
 
         if "values" in table_value:
             for value_key, value_value in table_value["values"].items():
-                add_codes(value_value, _terms_file)
+                add_codes(value_value, _terms_file, category)
     
 
 

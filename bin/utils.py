@@ -9,11 +9,11 @@ def get_info(ontology, code):
 
         response = None
         try:
-		    response = requests.get(url)
-		except requests.exceptions.RequestException as e:
-			print(e)
-			print("ERROR: network error with {} url".format(url))
-		    return {}
+            response = requests.get(url)
+        except requests.exceptions.RequestException as e:
+            print(e)
+            print("ERROR: network error with {} url".format(url))
+            return {}
 
         if not response or response.status_code != 200:
             print("ERROR getting NCIt page for {} !!!!!".format(url))
@@ -51,7 +51,7 @@ def get_info(ontology, code):
     return ret
 
 
-def add_codes(value, yaml_file_dict):
+def add_codes(value, yaml_file_dict, category, dest_attribute_name=None, dest_attribute_obj=None, value_key= None):
     if "codes" in value:
         for code_pair in value["codes"]:
             if not code_pair or code_pair == "":
@@ -65,5 +65,19 @@ def add_codes(value, yaml_file_dict):
             if composite_code in yaml_file_dict:
                 print("INFO: value {} already present in _terms file or already added.".format(composite_code))
             else:
-                yaml_file_dict[composite_code] = get_info(ontology,code)
+                data = get_info(ontology,code)
+                if "termDef" in data:
+                    yaml_file_dict[composite_code] = data
+
+            if composite_code in yaml_file_dict:
+                if dest_attribute_name and dest_attribute_obj:
+                    if dest_attribute_name not in dest_attribute_obj:
+                        dest_attribute_obj[dest_attribute_name] = []
+                    tmp_obj = {"$ref": "_terms.yaml#/" + composite_code}
+                    if dest_attribute_name == "enumDef":
+                        if not value_key:
+                            print("ERROR: missing value_key for enum")
+                        tmp_obj["enumeration"] = value_key
+                    dest_attribute_obj[dest_attribute_name].append(tmp_obj)
+
 

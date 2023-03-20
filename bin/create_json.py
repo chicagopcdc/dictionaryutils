@@ -3,7 +3,7 @@ import os
 import requests
 
 from dictionaryutils import dump_schemas_from_dir
-from .bulk_load_terms_file import get_info
+from utils import add_codes
 
 
 try:
@@ -49,43 +49,16 @@ with open(json_dd) as dd_file:
                 print("WARNING: variable {} is missing the properties value.".format(composite_name))
                 continue
 
-           
+            add_codes(dd_file_json[composite_name], yaml_schemas["_terms.yaml"], variable_name, "term", variable_values)
 
-            if "codes" in dd_file_json[composite_name]:
-                for code_pair in dd_file_json[composite_name]["codes"]:
-                    if not code_pair or code_pair == "":
-                        continue
-                    ontology,code = code_pair.split(':')
-                    composite_code = ontology + "_" + code
-                    if composite_code in yaml_schemas["_terms.yaml"]:
-                        print("INFO: value {} already present in _terms file or already added.".format(composite_code))
-                    else:
-                         yaml_schemas["_terms.yaml"][composite_code] = get_info(ontology,code)
-
-                    if "term" not in variable_values:
-                        variable_values["term"] = []
-                    variable_values["term"].append({"$ref": "_terms.yaml#/" + composite_code})
-
-            
             if "values" in table_value:
                 for value_key, value_value in table_value["values"].items():
-                    if "codes" in value_value:
-                        for code_value in value_value["codes"]:
-                            if not code_value or code_value == "":
-                                continue
-                            ontology,code = code_value.split(':')
-                            composite_code = ontology + "_" + code
-                            if composite_code in _terms_file:
-                                print("INFO: value {} already present in _terms file or already added.".format(composite_code))
-                            else:
-                                yaml_schemas["_terms.yaml"][composite_code] = get_info(ontology,code)
-
-                            if "enumDef" not in variable_values:
-                                variable_values["enumDef"] = []
-                            variable_values["enumDef"].append({"$ref": "_terms.yaml#/" + composite_code, "enumeration": value_key})
-    
+                    add_codes(value_value, yaml_schemas["_terms.yaml"], variable_name, "enumDef", variable_values, value_key)
 
 
 # Save files
 with open(os.path.join("../artifacts", "schema_aa.json"), "w", encoding='utf-8') as f:
     json.dump(yaml_schemas, f)
+
+
+
