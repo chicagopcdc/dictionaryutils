@@ -8,3 +8,6 @@
 
 # DEPENDENCIES
 The dictionaryutils repo dependencies need to be installed via poetry install.
+
+Need a .env fine inside he bin folder with the following variables:
+- `SCHEMA_PATH`: The path to the datadictionary/gdcdictionary/schemas folder

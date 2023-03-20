@@ -1,6 +1,7 @@
 import json
 import os
 import requests
+from dotenv import load_dotenv
 
 from dictionaryutils import dump_schemas_from_dir
 from utils import add_codes
@@ -11,8 +12,14 @@ try:
 except OSError:
     pass
 
+# Load env variables
+load_dotenv('.env')
+
+# path to the datadictionary/gdcdictionary/schemas/ folder
+shema_path: str = os.environ.get('SCHEMA_PATH', '../../gdcdictionary/schemas/')
+
 # make sure timing.yaml occurs first in output schema json
-yaml_schemas = dump_schemas_from_dir('../../gdcdictionary/schemas/')
+yaml_schemas = dump_schemas_from_dir(shema_path)
 yaml_schemas_with_timing = {k: v for k, v in yaml_schemas.items() if k == 'timing.yaml'}
 yaml_schemas_without_timing = {k: v for k, v in yaml_schemas.items() if k != 'timing.yaml'}
 yaml_schemas = {**yaml_schemas_with_timing, **yaml_schemas_without_timing}

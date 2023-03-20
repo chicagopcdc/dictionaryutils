@@ -1,13 +1,20 @@
 import json
 import os
 import yaml
+from dotenv import load_dotenv
 
 from dictionaryutils import load_yaml
 from utils import add_codes
 
 
 
-path = "../../gdcdictionary/schemas/_terms.yaml"
+# Load env variables
+load_dotenv('.env')
+
+# path to the datadictionary/gdcdictionary/schemas/ folder
+path: str = os.environ.get('SCHEMA_PATH', '../../gdcdictionary/schemas/')
+path += "_terms.yaml"
+
 if not os.path.isfile(path):
     print("_terms.yaml file not found im path {}!".format(path))
     exit()
