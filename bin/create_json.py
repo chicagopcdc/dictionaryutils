@@ -58,7 +58,7 @@ with open(json_dd) as dd_file:
 
 
 # Save files
-with open(os.path.join("../artifacts", "schema_aa.json"), "w", encoding='utf-8') as f:
+with open(os.path.join("../artifacts", "schema.json"), "w", encoding='utf-8') as f:
     json.dump(yaml_schemas, f)
 
 
