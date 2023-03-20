@@ -2,9 +2,9 @@ import requests
 
 def get_info(ontology, code):
     ret = {}
-    ret["termDef"] = {}
-
+    
     if ontology == 'ncit':
+        ret["termDef"] = {}
         url = "https://ncit.nci.nih.gov/ncitbrowser/ConceptReport.jsp?dictionary=NCI_Thesaurus&ns=ncit&code=" + code
 
         response = None
