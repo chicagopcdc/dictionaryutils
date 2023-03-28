@@ -18,6 +18,9 @@ load_dotenv('.env')
 # path to the datadictionary/gdcdictionary/schemas/ folder
 shema_path: str = os.environ.get('SCHEMA_PATH', '../../gdcdictionary/schemas/')
 
+table_name_mapping = {"lesion_characteristic": "lesion_characteristics", "adverse_event": "adverse_events", "lab": "laboratory_test", "person": "demographics", "disease_characteristic": "disease_characteristics", "tumor_assessment": "tumor_characteristics", "biopsy_surgical_procedure": "biopsy_surgical_procedures", "survival_characteristic": "survival_characteristics", "myeloid_sarcoma_involvement": "disease_characteristics", "total_dose": "medication", "molecular_analysis": "genetic_analysis", "study": "subject_characteristics", "off_protocol_therapy_study": "off_protocol_therapy_or_study", "protocol_treatment_modification": "protocol_treatment_modifications", "subjects": "subject_characteristics", "late_effect": "late_effects"}
+
+
 # make sure timing.yaml occurs first in output schema json
 yaml_schemas = dump_schemas_from_dir(shema_path)
 yaml_schemas_with_timing = {k: v for k, v in yaml_schemas.items() if k == 'timing.yaml'}
@@ -54,7 +57,16 @@ with open(json_dd) as dd_file:
             composite_name = table_name.split(".")[0] + "." + variable_name
             if composite_name not in dd_file_json.keys():
                 print("WARNING: variable {} is missing the properties value.".format(composite_name))
-                continue
+                if table_name.split(".")[0] in table_name_mapping:
+                    composite_name = table_name_mapping[table_name.split(".")[0]] + "." + variable_name
+                    print("trying mapping for " + composite_name)
+                    if composite_name not in dd_file_json.keys():
+                        print("WARNING: variable {} is missing the properties value.".format(composite_name))
+                        continue
+                else:
+                    print("WARNING: Missing mapping for " + composite_name)
+                    continue
+
 
             add_codes(dd_file_json[composite_name], yaml_schemas["_terms.yaml"], variable_name, "term", variable_values)
 
