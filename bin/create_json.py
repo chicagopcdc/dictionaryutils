@@ -67,6 +67,7 @@ with open(json_dd) as dd_file:
                     print("WARNING: Missing mapping for " + composite_name)
                     continue
 
+
             add_codes(dd_file_json[composite_name], yaml_schemas["_terms.yaml"], variable_name, "term", variable_values)
 
             # TODO need to finish doing the bulk load of the terms before re-enabling this, otherwise the generation of the schema.json will take a very long time
