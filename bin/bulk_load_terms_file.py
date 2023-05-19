@@ -29,13 +29,11 @@ with open(json_dd) as dd_file:
     dd_file_json = json.load(dd_file)
 
     for category, table_value in dd_file_json.items():
-        if "codes" in table_value:
-            add_codes(table_value, _terms_file, category)
+        add_codes(table_value, _terms_file, category)
 
         if "values" in table_value:
             for value_key, value_value in table_value["values"].items():
-                if "codes" in value_value:
-                    add_codes(value_value, _terms_file, category)
+                add_codes(value_value, _terms_file, category)
     
 
 

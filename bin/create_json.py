@@ -4,7 +4,7 @@ import requests
 from dotenv import load_dotenv
 
 from dictionaryutils import dump_schemas_from_dir
-from utils import add_codes
+from utils import add_codes, add_enum_description
 
 
 try:
@@ -75,28 +75,17 @@ with open(json_dd) as dd_file:
                     print("WARNING: Missing mapping for " + composite_name)
                     continue
 
-            if "codes" in dd_file_json[composite_name]:
-                add_codes(dd_file_json[composite_name], yaml_schemas["_terms.yaml"],
-                        variable_name, "term", variable_values)
+            add_codes(dd_file_json[composite_name], yaml_schemas["_terms.yaml"],
+                    variable_name, "term", variable_values)
 
             # TODO need to finish doing the bulk load of the terms before re-enabling this, otherwise the generation of the schema.json will take a very long time
             if "values" in dd_file_json[composite_name]:
                 enum_descriptions = []
                 for value_key, value_value in dd_file_json[composite_name]["values"].items():
-                    if "codes" in value_value:
-                        add_codes(value_value, yaml_schemas["_terms.yaml"],
-                                variable_name, "enumDef", variable_values, value_key)
-                    else:
-                        if "descriptions" in value_value:
-                            description = list(value_value["descriptions"].keys())[0]
-                            enum_descriptions.append({ "description": description, "enumeration": value_key })
-                if len(enum_descriptions) > 0:
-                    if "enumDef" in variable_values:
-                        variable_values["enumDef"].append(enum_descriptions)
-                    else:
-                        variable_values["enumDef"] = enum_descriptions
+                    add_codes(value_value, yaml_schemas["_terms.yaml"],
+                            variable_name, "enumDef", variable_values, value_key)
+                    add_enum_description(variable_values, value_value, value_key)
             
-
 
 # Save files
 with open(os.path.join("../artifacts", "schema.json"), "w", encoding='utf-8') as f:
