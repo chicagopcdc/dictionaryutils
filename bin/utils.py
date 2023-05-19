@@ -52,32 +52,31 @@ def get_info(ontology, code):
 
 
 def add_codes(value, yaml_file_dict, category, dest_attribute_name=None, dest_attribute_obj=None, value_key= None):
-    if "codes" in value:
-        for code_pair in value["codes"]:
-            if not code_pair or code_pair == "":
-                continue
-            split_codes = code_pair.split(':')
-            if len(split_codes) != 2:
-                print("ERROR: wrong code format {} for variable {}.".format(code_pair, category))
-                continue
-            ontology,code = split_codes
-            composite_code = ontology + "_" + code
-            if composite_code in yaml_file_dict:
-                print("INFO: value {} already present in _terms file or already added.".format(composite_code))
-            else:
-                data = get_info(ontology,code)
-                if "termDef" in data:
-                    yaml_file_dict[composite_code] = data
+    for code_pair in value["codes"]:
+        if not code_pair or code_pair == "":
+            continue
+        split_codes = code_pair.split(':')
+        if len(split_codes) != 2:
+            print("ERROR: wrong code format {} for variable {}.".format(code_pair, category))
+            continue
+        ontology,code = split_codes
+        composite_code = ontology + "_" + code
+        if composite_code in yaml_file_dict:
+            print("INFO: value {} already present in _terms file or already added.".format(composite_code))
+        else:
+            data = get_info(ontology,code)
+            if "termDef" in data:
+                yaml_file_dict[composite_code] = data
 
-            if composite_code in yaml_file_dict:
-                if dest_attribute_name and dest_attribute_obj:
-                    if dest_attribute_name not in dest_attribute_obj:
-                        dest_attribute_obj[dest_attribute_name] = []
-                    tmp_obj = {"$ref": "_terms.yaml#/" + composite_code}
-                    if dest_attribute_name == "enumDef":
-                        if not value_key:
-                            print("ERROR: missing value_key for enum")
-                        tmp_obj["enumeration"] = value_key
-                    dest_attribute_obj[dest_attribute_name].append(tmp_obj)
-
-
+        if composite_code in yaml_file_dict:
+            if dest_attribute_name and dest_attribute_obj:
+                if dest_attribute_name not in dest_attribute_obj:
+                    dest_attribute_obj[dest_attribute_name] = []
+                tmp_obj = {"$ref": "_terms.yaml#/" + composite_code}
+                if dest_attribute_name == "enumDef":
+                    if not value_key:
+                        print("ERROR: missing value_key for enum")
+                    tmp_obj["enumeration"] = value_key
+                    if "descriptions" in value:
+                        tmp_obj["description"] = list(value["descriptions"].keys())[0]
+                dest_attribute_obj[dest_attribute_name].append(tmp_obj)
