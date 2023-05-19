@@ -19,7 +19,7 @@ load_dotenv('.env')
 shema_path: str = os.environ.get('SCHEMA_PATH', '../../gdcdictionary/schemas/')
 
 table_name_mapping = {"lesion_characteristic": "lesion_characteristics", "adverse_event": "adverse_events", "lab": "laboratory_test", "person": "demographics", "disease_characteristic": "disease_characteristics", "tumor_assessment": "tumor_characteristics", "biopsy_surgical_procedure": "biopsy_surgical_procedures", "survival_characteristic": "survival_characteristics",
-                      "myeloid_sarcoma_involvement": "disease_characteristics", "total_dose": "medication", "molecular_analysis": "genetic_analysis", "subject": "subject_characteristics",  "study": "subject_characteristics", "off_protocol_therapy_study": "off_protocol_therapy_or_study", "protocol_treatment_modification": "protocol_treatment_modifications", "subject": "subject_characteristics", "late_effect": "late_effects"}
+                      "myeloid_sarcoma_involvement": "disease_characteristics", "total_dose": "medication", "molecular_analysis": "genetic_analysis", "subject": "subject_characteristics",  "study": "subject_characteristics", "off_protocol_therapy_study": "off_protocol_therapy_or_study", "protocol_treatment_modification": "protocol_treatment_modifications", "late_effect": "late_effects"}
 
 
 # make sure timing.yaml occurs first in output schema json
