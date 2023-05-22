@@ -80,4 +80,20 @@ def add_codes(value, yaml_file_dict, category, dest_attribute_name=None, dest_at
                         tmp_obj["enumeration"] = value_key
                     dest_attribute_obj[dest_attribute_name].append(tmp_obj)
 
-
+def add_enum_description(dest_enum_obj, enum_description_source, enumKey):
+    if "descriptions" in enum_description_source:
+        descriptions = list(enum_description_source["descriptions"].keys())
+        if len(descriptions) > 0:
+            description_sources = enum_description_source["descriptions"][descriptions[0]]
+            if "Aggregated" in description_sources:
+                description_sources.remove("Aggregated")
+            description = descriptions[0] + " (" +  ', '.join(description_sources) + ")"
+            if "enumDef" in dest_enum_obj:
+                enumeration_obj = next((x for x in dest_enum_obj["enumDef"] if x["enumeration"] == enumKey), None)
+                if enumeration_obj and "description" not in enumeration_obj:
+                    enumeration_obj["description"] = description
+                else:
+                    dest_enum_obj["enumDef"].append({ "enumeration": enumKey, "description": description })
+            else:
+                dest_enum_obj["enumDef"] = []
+                dest_enum_obj["enumDef"].append({ "enumeration": enumKey, "description": description })
