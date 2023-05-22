@@ -87,7 +87,7 @@ def add_enum_description(dest_enum_obj, enum_description_source, enumKey):
             if "enumDef" in dest_enum_obj:
                 enumeration_obj = next((x for x in dest_enum_obj["enumDef"] if x["enumeration"] == enumKey), None)
                 if enumeration_obj:
-                    enumeration_obj["descriptions"] = descriptions[0]
+                    enumeration_obj["description"] = descriptions[0]
                 else:
                     dest_enum_obj["enumDef"].append({ "enumeration": enumKey, "description": descriptions[0] })
             else:
