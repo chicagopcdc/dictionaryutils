@@ -18,8 +18,9 @@ load_dotenv('.env')
 # path to the datadictionary/gdcdictionary/schemas/ folder
 shema_path: str = os.environ.get('SCHEMA_PATH', '../../gdcdictionary/schemas/')
 
-table_name_mapping = {"lesion_characteristic": "lesion_characteristics", "adverse_event": "adverse_events", "lab": "laboratory_test", "person": "demographics", "disease_characteristic": "disease_characteristics", "tumor_assessment": "tumor_characteristics", "biopsy_surgical_procedure": "biopsy_surgical_procedures", "survival_characteristic": "survival_characteristics",
-                      "myeloid_sarcoma_involvement": "disease_characteristics", "total_dose": "medication", "molecular_analysis": "genetic_analysis", "subject": "subject_characteristics",  "study": "subject_characteristics", "off_protocol_therapy_study": "off_protocol_therapy_or_study", "protocol_treatment_modification": "protocol_treatment_modifications", "late_effect": "late_effects"}
+table_name_mapping = {"lesion_characteristic": "lesion_characteristics", "adverse_event": "adverse_events", "lab": "laboratory_test", "person": "demographics", "disease_characteristic": "disease_characteristics", "tumor_assessment": "tumor_characteristics", "biopsy_surgical_procedure": "biopsy_and_surgical_procedures", "survival_characteristic": "survival_characteristics",
+                      "myeloid_sarcoma_involvement": "disease_characteristics", "total_dose": "medication", "molecular_analysis": "genetic_analysis", "subject": "subject_characteristics",  "study": "subject_characteristics", "off_protocol_therapy_study": "off_protocol_therapy_or_study", "protocol_treatment_modification": "protocol_treatment_modifications", "late_effect": "late_effects",
+                      "non_protocol_therapy": "medication"}
 
 
 # make sure timing.yaml occurs first in output schema json
@@ -45,8 +46,9 @@ with open(json_dd) as dd_file:
     # We Should generate a file without the grouping to avoid parsing the key and making changes here
     dd_file_json = {}
     for category, table_value in dd_file_json_grouped.items():
-        dd_file_json[(category[category.index(".") +
-                      1:len(category)]).lower()] = table_value
+        if category == "table guidance":
+            continue
+        dd_file_json[(category[category.index(".") + 1:len(category)]).lower()] = table_value
     # END PATCH
 
     for table_name, table_content in yaml_schemas.items():
@@ -84,7 +86,11 @@ with open(json_dd) as dd_file:
                 for value_key, value_value in dd_file_json[composite_name]["values"].items():
                     add_codes(value_value, yaml_schemas["_terms.yaml"],
                             variable_name, "enumDef", variable_values, value_key)
-                    add_enum_description(variable_values, value_value, value_key)
+
+                    # TODO find a way to generalize this - may need to add a variable in the all_variables.json file containing the necessary info
+                    # For now we are only interested in consortium to have this extra diseases description
+                    if variable_name == "consortium":
+                        add_enum_description(variable_values, value_value, value_key)
             
 
 # Save files
