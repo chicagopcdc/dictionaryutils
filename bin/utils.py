@@ -33,8 +33,14 @@ def get_info(ontology, code):
             ret["termDef"]["term"] = page[index:end_index].strip()
 
         index = page.find("<b>Definition:&nbsp;</b>")
-        if index == -1:
-            print("definition not found in page {}".format(url))
+        if index == -1:    
+            index = page.find("<b>NCI-GLOSS Definition:&nbsp;</b>")
+            if index == -1:
+                print("definition not found in page {}".format(url))
+            else:
+                index += len("<b>NCI-GLOSS Definition:&nbsp;</b>")
+                end_index = page.index("</p>", index)
+                ret["description"] = page[index:end_index].strip()
         else:
             index += len("<b>Definition:&nbsp;</b>")
             end_index = page.index("</p>", index)
