@@ -76,6 +76,13 @@ def add_codes(value, yaml_file_dict, category, dest_attribute_name=None, dest_at
                     yaml_file_dict[composite_code] = data
 
             if composite_code in yaml_file_dict:
+                # overwrite the destination object's 'description' attribute with
+                # the ontology code's 'description' if available (not null/blank)
+                yaml_file_dict_desc = str(yaml_file_dict[composite_code].get('description', '')).strip()
+                if dest_attribute_name == 'term' and yaml_file_dict_desc != '':
+                    print(f"Setting/overwriting 'description' attribute with description from {ontology}")
+                    dest_attribute_obj["description"] = yaml_file_dict_desc
+
                 if dest_attribute_name and dest_attribute_obj:
                     if dest_attribute_name not in dest_attribute_obj:
                         dest_attribute_obj[dest_attribute_name] = []
