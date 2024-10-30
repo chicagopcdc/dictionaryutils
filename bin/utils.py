@@ -33,8 +33,14 @@ def get_info(ontology, code):
             ret["termDef"]["term"] = page[index:end_index].strip()
 
         index = page.find("<b>Definition:&nbsp;</b>")
-        if index == -1:
-            print("definition not found in page {}".format(url))
+        if index == -1:    
+            index = page.find("<b>NCI-GLOSS Definition:&nbsp;</b>")
+            if index == -1:
+                print("definition not found in page {}".format(url))
+            else:
+                index += len("<b>NCI-GLOSS Definition:&nbsp;</b>")
+                end_index = page.index("</p>", index)
+                ret["description"] = page[index:end_index].strip()
         else:
             index += len("<b>Definition:&nbsp;</b>")
             end_index = page.index("</p>", index)
@@ -70,6 +76,13 @@ def add_codes(value, yaml_file_dict, category, dest_attribute_name=None, dest_at
                     yaml_file_dict[composite_code] = data
 
             if composite_code in yaml_file_dict:
+                # overwrite the destination object's 'description' attribute with
+                # the ontology code's 'description' if available (not null/blank)
+                yaml_file_dict_desc = str(yaml_file_dict[composite_code].get('description', '')).strip()
+                if dest_attribute_name == 'term' and yaml_file_dict_desc != '':
+                    print(f"Setting/overwriting 'description' attribute with description from {ontology}")
+                    dest_attribute_obj["description"] = yaml_file_dict_desc
+
                 if dest_attribute_name and dest_attribute_obj:
                     if dest_attribute_name not in dest_attribute_obj:
                         dest_attribute_obj[dest_attribute_name] = []
@@ -95,7 +108,8 @@ def add_enum_description(dest_enum_obj, enum_description_source, enumKey):
             if "enumDef" in dest_enum_obj:
                 enumeration_obj = next((x for x in dest_enum_obj["enumDef"] if x["enumeration"] == enumKey), None)
                 if enumeration_obj:
-                    enumeration_obj["description"] = enumeration_obj["description"] + description
+                    # 'description' attribute may not be defined for enumeration_obj created by add_codes (tmp_obj)
+                    enumeration_obj["description"] = enumeration_obj.get("description", '') + description
                 else:
                     dest_enum_obj["enumDef"].append({ "enumeration": enumKey, "description": description })
             else:
