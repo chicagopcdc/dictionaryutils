@@ -14022,7 +14022,7 @@
                     "CP"
                 ],
                 "codes": [
-                    "nict:C123329"
+                    "ncit:C123329"
                 ],
                 "descriptions": {
                     "Multiple endocrine neoplasia caused by mutation of the RET gene. It includes the following neoplastic processes: multiple endocrine neoplasia type 2A, multiple endocrine neoplasia type 2B, and hereditary thyroid gland medullary carcinoma.": [
@@ -111908,7 +111908,7 @@
                     "RB"
                 ],
                 "codes": [
-                    "ncit:6965"
+                    "ncit:C6965"
                 ],
                 "descriptions": {
                     "A neoplasm arising from the pineocyte, a cell with photosensory and neuroendocrine functions. It may be composed of mature elements or primitive, immature cells. The cellular composition determines the biological behavior and clinical outcome. Three types are recognized: pineoblastoma, pineocytoma, and pineal parenchymal tumor of intermediate differentiation (Adapted from WHO.)": [
