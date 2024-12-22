@@ -1,7 +1,6 @@
 """ utility library for yaml=>json dictionary creation scripts """
 # pylint: disable=too-many-arguments,line-too-long,consider-using-f-string
 
-import datetime
 import requests
 
 # pylint: disable-next=no-member
