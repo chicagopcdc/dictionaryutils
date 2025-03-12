@@ -6,6 +6,9 @@ authors = ["CTDS UChicago <cdis@uchicago.edu>"]
 license = "Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/uc-cdis/dictionaryutils"
+include = [
+  "NOTICE",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.9, <4"
@@ -23,7 +26,7 @@ gdcdictionary = {git = "https://github.com/NCI-GDC/gdcdictionary.git", rev = "2.
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
-data-simulator = {git = "https://github.com/uc-cdis/data-simulator.git", branch = "update-branches"}
+data-simulator = {git = "https://github.com/uc-cdis/data-simulator.git"}
 
 [build-system]
 requires = ["poetry>=0.12"]
