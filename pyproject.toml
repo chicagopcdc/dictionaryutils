@@ -10,7 +10,7 @@ include = [
   "NOTICE",
 ]
 packages = [
-  { include = "dictionaryutils" }
+  { include = "dictionaryutils_pcdc" }
 ]
 
 [tool.poetry.dependencies]
