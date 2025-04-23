@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "dictionaryutils"
+name = "dictionaryutils-pcdc"
 version = "3.4.12"
 description = "Python wrapper and metaschema for datadictionary."
 authors = ["CTDS UChicago <cdis@uchicago.edu>"]
