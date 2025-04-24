@@ -2,7 +2,7 @@ from contextlib import contextmanager
 import glob
 import os
 import yaml
-from dictionaryutils import dictionary
+from dictionaryutils_pcdc import dictionary
 from gdcdictionary import SCHEMA_DIR
 
 

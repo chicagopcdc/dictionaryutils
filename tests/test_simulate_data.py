@@ -1,5 +1,5 @@
 from datasimulator.graph import Graph
-from dictionaryutils import dictionary
+from dictionaryutils_pcdc import dictionary
 
 
 def test():

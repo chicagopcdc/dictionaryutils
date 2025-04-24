@@ -1,4 +1,4 @@
-from dictionaryutils import dictionary
+from dictionaryutils_pcdc import dictionary
 
 
 def test_no_mixed_type_in_enum():

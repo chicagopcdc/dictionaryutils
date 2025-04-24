@@ -1,4 +1,4 @@
-from dictionaryutils import dictionary
+from dictionaryutils_pcdc import dictionary
 
 
 def test_required_program_property():

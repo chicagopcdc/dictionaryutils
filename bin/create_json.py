@@ -9,7 +9,7 @@ import typing
 from dotenv import load_dotenv
 
 from utils import add_codes, add_enum_description
-from dictionaryutils import dump_schemas_from_dir
+from dictionaryutils_pcdc import dump_schemas_from_dir
 
 
 try:

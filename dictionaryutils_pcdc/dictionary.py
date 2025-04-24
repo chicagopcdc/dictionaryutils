@@ -14,7 +14,7 @@ import traceback
 
 from cdislogging import get_logger
 
-from dictionaryutils import add_default_schema
+from dictionaryutils_pcdc import add_default_schema
 
 
 logger = get_logger("__name__", log_level="info")

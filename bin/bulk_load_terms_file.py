@@ -8,7 +8,7 @@ import yaml
 from dotenv import load_dotenv
 
 from utils import add_codes
-from dictionaryutils import load_yaml
+from dictionaryutils_pcdc import load_yaml
 
 
 # Load env variables

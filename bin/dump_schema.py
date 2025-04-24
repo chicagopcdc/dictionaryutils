@@ -7,7 +7,7 @@ import json
 import os
 
 from gdcdictionary import SCHEMA_DIR
-from dictionaryutils import dump_schemas_from_dir
+from dictionaryutils_pcdc import dump_schemas_from_dir
 
 try:
     os.mkdir("artifacts")
