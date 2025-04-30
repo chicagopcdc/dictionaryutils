@@ -30,7 +30,7 @@ def get_info(ontology, code):
         page = response.text
 
         ret["termDef"]["source"] = ontology
-        ret["termDef"]["code"] = code
+        ret["termDef"]["cde_id"] = code
         ret["termDef"]["term_url"] = url
 
         index = page.find("<b>Preferred Name:&nbsp;</b>")
@@ -61,7 +61,7 @@ def get_info(ontology, code):
         else:
             index += len("<span class=\"vocabularynamelong_ncit\">")
             end_index = page.index("</span>", index)
-            ret["termDef"]["version"] = page[index:end_index].strip()
+            ret["termDef"]["cde_version"] = page[index:end_index].strip()
 
     return ret
 
