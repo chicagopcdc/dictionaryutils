@@ -144,7 +144,7 @@ with open(os.path.join(schema_file_dir, schema_file_name), "w", encoding="utf-8"
 # Copy to individual environment files
 if len(sys.argv) == 2:
     project_code: str = sys.argv[1] # e.g. 20240130
-    env_names: tuple[str, ...] = ("demo", "dev", "staging", "prod")
+    env_names: tuple[str, ...] = ("dev", "staging", "prod")
     env_name: str
     for env_name in env_names:
         shutil.copyfile(
